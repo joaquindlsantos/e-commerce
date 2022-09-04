@@ -4,6 +4,7 @@ const ORDER_DESC_BY_PRICE = "DP";
 const ORDER_BY_PROD_SOLDCOUNT = "Cant.";
 let prodArray = [];
 let prodArrayAux = [];
+let catName;
 let currentSortCriteria = undefined;
 let minPrice = undefined;
 let maxPrice = undefined;
@@ -44,11 +45,11 @@ function filterAndShowProductsByPrice(){
 
 
 function showProductsList(){
-    document.getElementById("productsName").innerText = prodArray.catName;
+    document.getElementById("productsName").innerText = catName;
     let htmlContentToAppend = "";
     for(let i = 0; i < prodArray.length; i++){ 
         let product = prodArray[i];
-
+        
         htmlContentToAppend += `
         <div class="list-group-item list-group-item-action">
             <div class="row">
@@ -91,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         if (resultObj.status === "ok")
         {
             prodArray = resultObj.data.products;
+            catName = resultObj.data.catName;
             prodArrayAux = prodArray;
             showProductsList();
         }
