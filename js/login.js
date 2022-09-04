@@ -13,10 +13,10 @@ function dataValidation(){
       errorMsg.style.display = 'inline-block';
 
     }else{
-      window.location.href = "home.html";
+      localStorage.setItem("userEmail",email.value);
+      window.location.href = "index.html";
     }
   })
 }
-
 
 dataValidation();

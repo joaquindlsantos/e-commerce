@@ -1,50 +1,129 @@
-let carArray = [];
+const CAT_ID = localStorage.getItem("catID");
+const ORDER_ASC_BY_PRICE = "AP";
+const ORDER_DESC_BY_PRICE = "DP";
+const ORDER_BY_PROD_SOLDCOUNT = "Cant.";
+let prodArray = [];
+let prodArrayAux = [];
+let currentSortCriteria = undefined;
+let minPrice = undefined;
+let maxPrice = undefined;
 
-//función que recibe un array con los datos, y los muestra en pantalla a través el uso del DOM
-function showCarList(array){
+function sortProducts(criteria, array){
+    let result = [];
+    if (criteria === ORDER_ASC_BY_PRICE)
+    {
+        result = array.sort(function(a, b) {
+            if ( a.cost < b.cost ){ return -1; }
+            if ( a.cost > b.cost ){ return 1; }
+            return 0;
+        });
+    }else if (criteria === ORDER_DESC_BY_PRICE){
+        result = array.sort(function(a, b) {
+            if ( a.cost > b.cost ){ return -1; }
+            if ( a.cost < b.cost ){ return 1; }
+            return 0;
+        });
+    }else if (criteria === ORDER_BY_PROD_SOLDCOUNT){
+        result = array.sort(function(a, b) {
+            let aSoldCount = parseInt(a.soldCount);
+            let bSoldCount = parseInt(b.soldCount);
+
+            if ( aSoldCount > bSoldCount ){ return -1; }
+            if ( aSoldCount < bSoldCount ){ return 1; }
+            return 0;
+        });
+    }
+
+    return result;
+}
+
+function filterAndShowProductsByPrice(){
+    prodArray = prodArray.filter((value) => value.cost >= minPrice && value.cost <= maxPrice);
+    showProductsList();
+}
+
+
+function showProductsList(){
+    document.getElementById("productsName").innerText = prodArray.catName;
     let htmlContentToAppend = "";
+    for(let i = 0; i < prodArray.length; i++){ 
+        let product = prodArray[i];
 
-    for(let i = 0; i < array.length; i++){ 
-        let car = array[i];
         htmlContentToAppend += `
         <div class="list-group-item list-group-item-action">
             <div class="row">
                 <div class="col-3">
-                    <img src="` + car.image + `" alt="product image" class="img-thumbnail">
+                    <img src="` + product.image + `" alt="product image" class="img-thumbnail">
                 </div>
                 <div class="col">
                     <div class="d-flex w-100 justify-content-between">
                         <div class="mb-1">
-                        <h4>`+ car.name +` - ` + car.currency + car.cost +`</h4> 
-                        <p> `+ car.description +`</p> 
+                        <h4>`+ product.name +` - ` + product.currency + product.cost +`</h4> 
+                        <p> `+ product.description +`</p> 
                         </div>
-                        <small class="text-muted">` + car.soldCount + ` vendidos</small> 
+                        <small class="text-muted">` + product.soldCount + ` vendidos</small> 
                     </div>
 
                 </div>
             </div>
         </div>
         `
-        document.getElementById("car-list-container").innerHTML = htmlContentToAppend; 
+
+        document.getElementById("products-list-container").innerHTML = htmlContentToAppend; 
+        
     }
 }
 
+function sortAndShowProducts(sortCriteria, productsArray){
+    currentSortCriteria = sortCriteria;
 
-/* 
-EJECUCIÓN:
+    if(productsArray != undefined){
+        prodArray = productsArray;
+    }
 
--Al cargar la página se llama a getJSONData() pasándole por parámetro la dirección para obtener el listado.
--Se verifica el estado del objeto que devuelve, y, si es correcto, se cargan los datos en categoriesArray.
--Por último, se llama a showCategoriesList() pasándole por parámetro categoriesArray.
+    prodArray = sortProducts(currentSortCriteria, prodArray);
 
-*/
+    showProductsList();
+}
 
 document.addEventListener("DOMContentLoaded", function(e){
-    getJSONData("https://japceibal.github.io/emercado-api/cats_products/101.json").then(function(resultObj){
+    getJSONData(PRODUCTS_URL + CAT_ID + EXT_TYPE ).then(function(resultObj){
         if (resultObj.status === "ok")
         {
-            carArray = resultObj.data;
-            showCarList(carArray.products);
+            prodArray = resultObj.data.products;
+            prodArrayAux = prodArray;
+            showProductsList();
         }
     });
+
+    document.getElementById("sortByAscPrice").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_ASC_BY_PRICE);
+    });
+
+    document.getElementById("sortByDescPrice").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_DESC_BY_PRICE);
+    });
+
+    document.getElementById("sortByProdCount").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_BY_PROD_SOLDCOUNT);
+    });
+
+    document.getElementById("clearRangeFilter").addEventListener("click", function(){
+        document.getElementById("rangeFilterPriceMin").value = "";
+        document.getElementById("rangeFilterPriceMax").value = "";
+
+        minPrice = undefined;
+        maxPrice = undefined;
+        prodArray = prodArrayAux;
+        showProductsList();
+    });
+
+    document.getElementById("rangeFilterPrice").addEventListener("click", function(){
+        minPrice = document.getElementById("rangeFilterPriceMin").value;
+        maxPrice = document.getElementById("rangeFilterPriceMax").value;
+        filterAndShowProductsByPrice();
+    });
+
 });
+
+
