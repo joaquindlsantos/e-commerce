@@ -43,6 +43,10 @@ function filterAndShowProductsByPrice(){
     showProductsList();
 }
 
+function setProdID(id) {
+    localStorage.setItem("ProdID", id);
+    window.location = "product-info.html"
+}
 
 function showProductsList(){
     document.getElementById("productsName").innerText = catName;
@@ -51,25 +55,21 @@ function showProductsList(){
         let product = prodArray[i];
         
         htmlContentToAppend += `
-        <div class="list-group-item list-group-item-action">
-            <div class="row">
-                <div class="col-3">
-                    <img src="` + product.image + `" alt="product image" class="img-thumbnail">
-                </div>
-                <div class="col">
-                    <div class="d-flex w-100 justify-content-between">
-                        <div class="mb-1">
-                        <h4>`+ product.name +` - ` + product.currency + product.cost +`</h4> 
-                        <p> `+ product.description +`</p> 
-                        </div>
-                        <small class="text-muted">` + product.soldCount + ` vendidos</small> 
+            <div onclick="setProdID(${product.id})" class="list-group-item list-group-item-action cursor-active">
+                <div class="row">
+                    <div class="col-3">
+                        <img src="${product.image}" alt="${product.image}" class="img-thumbnail">
                     </div>
-
+                    <div class="col">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h4 class="mb-1">${product.name} - ${product.currency} ${product.cost}</h4>
+                            <small class="text-muted">${product.soldCount} vendidos</small>
+                        </div>
+                        <p class="mb-1">${product.description}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        `
-
+            `
         document.getElementById("products-list-container").innerHTML = htmlContentToAppend; 
         
     }

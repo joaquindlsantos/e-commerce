@@ -49,7 +49,10 @@ function loginRedirection(){
 }
 
 function setEmail(){
-  document.querySelector(".userEmail").innerText = localStorage.getItem("userEmail");
+  const email = localStorage.getItem("userEmail");
+  if(email != null){
+    document.querySelector(".userEmail").innerText = email;
+  }
 }
 
 
