@@ -104,14 +104,19 @@ function showProductImages() {
 
 function showProductComments() {
   let htmlContentToAppend = "";
-  htmlContentToAppend = `<h4>Comentarios</h5>`
-  for (comment of productComments) {
-    htmlContentToAppend += `
-    <div class="row border">
-      <span><span style="font-weight: bold;">${comment.user} </span>- ${comment.dateTime} - ${userScore(comment.score)}</span>
-      <p>${comment.description}</p>
-    </div>
-    `
+  htmlContentToAppend = `<h4>Comentarios</h4>`
+  if(productComments.length > 0){
+    for (comment of productComments) {
+      htmlContentToAppend += `
+      <div class="row border">
+        <span><span style="font-weight: bold;">${comment.user} </span>- ${comment.dateTime} - ${userScore(comment.score)}</span>
+        <p>${comment.description}</p>
+      </div>
+      `
+    }
+  }
+  else{
+    htmlContentToAppend += `<small>No existen comentario por el momento.</small>`
   }
   document.getElementById("product-comments").innerHTML = htmlContentToAppend;
 }
@@ -137,17 +142,44 @@ function commentsForm(){
       </select>
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
-  </form>
+    </form>
+    `;
+    document.getElementById("comment-form").innerHTML = htmlContentToAppend;
+  }
+  
+function showRelatedProducts(){
+  let htmlContentToAppend = "";
+  htmlContentToAppend = `
+    <hr><br>
+    <h4 class="mb-5 mt-3">Productos relacionados</h4>
   `;
-  document.getElementById("comment-form").innerHTML = htmlContentToAppend;
+  for(let item of product.relatedProducts){
+    const { id, name, image} = item;
+    htmlContentToAppend += `
+      <div onclick="resetProdID(${id})" class="cursor-active card ms-3 mt-1" style="width: 18rem;">
+        <img class="card-img-top" src="${image}" alt="Card image cap">
+        <p class="pt-3 ms-3" >${name}</p>
+      </div>
+
+    `;
+
+  }
+  document.getElementById("related-products").innerHTML = htmlContentToAppend;
 }
 
-document.addEventListener("DOMContentLoaded", function (e) {
+function resetProdID(id) {
+  localStorage.setItem("ProdID", id);
+  window.location = "product-info.html"
+}
+
+
+  document.addEventListener("DOMContentLoaded", function (e) {
   getJSONData(PRODUCT_INFO_URL + PRODUCT_ID + EXT_TYPE).then(function (resultObj) {
     if (resultObj.status === "ok") {
       product = resultObj.data;
       showProductInfo();
       showProductImages();
+      showRelatedProducts();
     }
   });
   getJSONData(PRODUCT_INFO_COMMENTS_URL + PRODUCT_ID + EXT_TYPE).then(function (resultObj) {
@@ -158,4 +190,3 @@ document.addEventListener("DOMContentLoaded", function (e) {
     }
   });
 })
-
