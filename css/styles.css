@@ -226,3 +226,7 @@ a.custom-card:hover {
   margin-bottom: 0px;
   color: white;
 }
+
+.table-responsive {
+  overflow-x: hidden;
+}
