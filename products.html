@@ -44,7 +44,16 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col text-end">
+        <div class="col-lg-4 offset-lg-6 col-md-10 col-sm-8">
+          <div class="input-group rounded">
+            <input type="search" class="form-control rounded" placeholder="" aria-label=""
+              aria-describedby="search-addon" id="inputSearch" />
+            <span class="input-group-text border-0" id="search-addon">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 text-end">
           <div class="btn-group btn-group-toggle mb-4" data-bs-toggle="buttons">
             <input type="radio" class="btn-check" name="options" id="sortByDescPrice" checked>
             <label class="btn btn-light" for="sortByDescPrice"><i class="fas fa-sort-amount-down mr-1"></i>$</label>
@@ -77,7 +86,7 @@
         </div>
       </div>
       <div class="row">
-          <div class="list-group" id="products-list-container"></div>
+        <div class="list-group" id="products-list-container"></div>
       </div>
     </div>
   </main>

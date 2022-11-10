@@ -85,9 +85,6 @@ function showProductInfo() {
   document.getElementById("product-info-container").innerHTML = htmlContentToAppend;
 }
 
-
-
-
 function showProductImages() {
   let htmlContentToAppend = "";
 
@@ -104,7 +101,6 @@ function showProductImages() {
 
 function showProductComments() {
   let htmlContentToAppend = "";
-  htmlContentToAppend = `<h4>Comentarios</h4>`
   if(productComments.length > 0){
     for (comment of productComments) {
       htmlContentToAppend += `
@@ -121,38 +117,10 @@ function showProductComments() {
   document.getElementById("product-comments").innerHTML = htmlContentToAppend;
 }
 
-function commentsForm(){
-  let htmlContentToAppend = "";
-  htmlContentToAppend = `
-  <h4 class="mt-4">Comentar</h4>
-  <form>
-    <div class="form-group">
-    <label for="commentBox">Tu opinion:</label>
-    <textarea class="form-control w-50" id="commentBox" rows="3"></textarea>
-    </div>
-    <div class="form-row align-items-center">
-    <div class="col-auto my-1">
-      <label class="mr-sm-2 my-1" for="">Tu puntuacion:</label>
-      <select class="custom-select mr-sm-1" id="">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-    `;
-    document.getElementById("comment-form").innerHTML = htmlContentToAppend;
-  }
   
 function showRelatedProducts(){
   let htmlContentToAppend = "";
-  htmlContentToAppend = `
-    <hr><br>
-    <h4 class="mb-5 mt-3">Productos relacionados</h4>
-  `;
+
   for(let item of product.relatedProducts){
     const { id, name, image} = item;
     htmlContentToAppend += `
@@ -186,7 +154,6 @@ function resetProdID(id) {
     if (resultObj.status === "ok") {
       productComments = resultObj.data;
       showProductComments()
-      commentsForm();
     }
   });
 })

@@ -54,9 +54,72 @@
     </div>
   </nav>
   <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+    <div class="container w-50">
+      <div class="row align-items-center pt-1">
+        <div class="col">
+          <h1 class="mb-0">Perfil</h1>
+        </div>
+        <div class="col">
+          <img src="" class="img-thumbnail user-profile-img float-end rounded-0" alt="" id="imgThumbnail">
+        </div class>
+      </div>
+      <hr class="mt-4">
+      <div>
+        <form class="needs-validation" id="userProfileForm" novalidate>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="inputFirstName" class="form-label">Primer nombre*</label>
+              <input type="text" class="form-control" id="inputFirstName" required>
+              <div class="invalid-feedback">
+                Este campo no puede estar vacio.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputSecondName" class="form-label">Segundo nombre</label>
+              <input type="text" class="form-control" id="inputSecondName">
+            </div>
+          </div>
+
+          <div class="row pt-3">
+            <div class="col-md-6">
+              <label for="inputFirstSurname" class="form-label ">Primer apellido*</label>
+              <input type="text" class="form-control" id="inputFirstSurname" required>
+              <div class="invalid-feedback">
+                Este campo no puede estar vacio.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputSecondSurname" class="form-label">Segundo apellido</label>
+              <input type="text" class="form-control" id="inputSecondSurname">
+            </div>
+          </div>
+
+          <div class="row pt-3 ">
+            <div class="col-md-6">
+              <label for="inputEmail" class="form-label">E-mail</label>
+              <input type="email" class="form-control" id="inputEmail">
+            </div>
+            <div class="col-md-6">
+              <label for="inputProfileImg" class="form-label">Imagen de perfil</label>
+              <input class="form-control" type="file" id="inputProfileImg">
+            </div>
+          </div>
+
+          <div class="row pt-3">
+            <div class="col-md-6">
+              <label for="inputTelephoneNumber" class="form-label">Telefono de contacto*</label>
+              <input type="number" class="form-control" id="inputTelephoneNumber" required>
+              <div class="invalid-feedback">
+                Este campo no puede estar vacio.
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3">
+            <hr class="mb-4">
+            <button type="submit" id="btnSaveChanges" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </form>
       </div>
     </div>
   </main>
