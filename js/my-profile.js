@@ -74,8 +74,6 @@ function saveUserProfile() {
   const userTelephoneNumber = InputTelephoneNumber.value;
   localStorage.setItem('userTelephoneNumber', userTelephoneNumber);
 
-  //const userProfileImage = InputProfileImg.value;
-  //localStorage.setItem('userProfileImg', userProfileImage);
 
 }
 
